@@ -1,10 +1,11 @@
 
 import tkinter as tk
 from tkinter import filedialog
+import os
 import pyaudio
 import wave, sys, threading
+# import pygame
 
-import pygame
 window=tk.Tk()
 window.title("使用AI生成音樂")
 
@@ -51,15 +52,20 @@ def play_file():
         stream.close()
         p.terminate()
 
-
-def save_mp3():
+#可以叫出評分頁面的 function
+def Scoring():
     # wait where the output  music
-    print(f" wait where the output  music")
+    os.system('python3 pitch.py')
+    print(f"Scoring function")
 
+#可以叫出RVC 頁面的 function
+def RVC_page():
+    os.system('python3 請改成RVCpy檔的名字.py')
+    print(f"RVC function")
 
-upload_button = tk.Button(window,background="#ea4462",fg="white",font=('Arial',14), text="upload your muise",width=50,height=4,borderwidth =0,highlightthickness=0,command=play_file)
-save_button = tk.Button(window,background="#fbabbb",fg="white",font=('Arial',14), text="save muise",width=50,height=4,borderwidth =0,highlightthickness=0,command=save_mp3)
-button3 = tk.Button(window,background="#3e3e3e",fg="white",font=('Arial',14), text="備用button3",width=50,height=4,borderwidth =0,highlightthickness=0)
+save_button = tk.Button(window,background="#fbabbb",fg="white",font=('Arial',14), text="score",width=50,height=4,borderwidth =0,highlightthickness=0,command=Scoring)
+upload_button = tk.Button(window,background="#ea4462",fg="white",font=('Arial',14), text="play muise",width=50,height=4,borderwidth =0,highlightthickness=0,command=play_file)
+button3 = tk.Button(window,background="#3e3e3e",fg="white",font=('Arial',14), text="RVC",width=50,height=4,borderwidth =0,highlightthickness=0,command=RVC_page)
 button4 = tk.Button(window,background="#fafafa",fg="black",font=('Arial',14), text="備用button4",width=50,height=4,borderwidth =0,highlightthickness=0)
 upload_button.grid(row=2 , column=0,sticky='w',padx=20,pady = 5)
 save_button.grid(row= 3, column=0,sticky='w',padx = 20,pady = 5)
