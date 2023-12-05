@@ -63,12 +63,12 @@ def RVC_page():
     os.system('python3 請改成RVCpy檔的名字.py')
     print(f"RVC function")
 
-save_button = tk.Button(window,background="#fbabbb",fg="white",font=('Arial',14), text="score",width=50,height=4,borderwidth =0,highlightthickness=0,command=Scoring)
-upload_button = tk.Button(window,background="#ea4462",fg="white",font=('Arial',14), text="play muise",width=50,height=4,borderwidth =0,highlightthickness=0,command=play_file)
+save_button = tk.Button(window,background="#ea4462",fg="white",font=('Arial',14), text="score",width=50,height=4,borderwidth =0,highlightthickness=0,command=Scoring)
+upload_button = tk.Button(window,background="#fbabbb",fg="white",font=('Arial',14), text="play muise",width=50,height=4,borderwidth =0,highlightthickness=0,command=play_file)
 button3 = tk.Button(window,background="#3e3e3e",fg="white",font=('Arial',14), text="RVC",width=50,height=4,borderwidth =0,highlightthickness=0,command=RVC_page)
-button4 = tk.Button(window,background="#fafafa",fg="black",font=('Arial',14), text="備用button4",width=50,height=4,borderwidth =0,highlightthickness=0)
+
 upload_button.grid(row=2 , column=0,sticky='w',padx=20,pady = 5)
 save_button.grid(row= 3, column=0,sticky='w',padx = 20,pady = 5)
 button3.grid(row=4 , column=0,sticky='w',padx=20,pady = 5)
-button4.grid(row=5 , column=0,sticky='w',padx = 20,pady = 5)
+
 window.mainloop()
