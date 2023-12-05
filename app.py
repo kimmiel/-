@@ -48,6 +48,9 @@ def play_file():
                 break
             stream.write(data)
 
+        stream.close()
+        p.terminate()
+
 
 def save_mp3():
     # wait where the output  music
