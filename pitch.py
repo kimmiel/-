@@ -8,8 +8,11 @@ import sys
 import argparse
 from dtw import dtw
 import parselmouth
+import tkinter as tk 
+from tkinter import filedialog
 
-#path = "./audio.wav"
+audiopath = None
+recordpath = None
 
 def pitch_detection(waveform: np.ndarray, sr)->parselmouth.Pitch:
   snd = parselmouth.Sound(values=waveform, sampling_frequency=sr)
@@ -24,14 +27,32 @@ def compare_similarity(vocal, record, sr):
   #資料不能太大 這個DP的時間複雜度好像是exponential?
   alignment = dtw(mfcc1, mfcc2) #time series data之間的距離
 
-  print('dtw normalized distance of mfcc: ', alignment.normalizedDistance) #數值越小越相似
+  space2.config(text=int(alignment.normalizedDistance))
+  #scord = 'dtw normalized distance of mfcc: ' + str(alignment.normalizedDistance)
+  #print('dtw normalized distance of mfcc: ', alignment.normalizedDistance) #數值越小越相似
+
+
+#從以下两個function找到音檔的路徑 
+def upload_file1():
+    path=filedialog.askopenfilename()
+    global audiopath
+    if path:
+        audiopath=path
+        print(f"Uploading Music from file: {audiopath}") 
+
+def upload_file2():
+    path=filedialog.askopenfilename()
+    global recordpath
+    if path:
+        recordpath=path
+        print(f"Uploading Music from file: {recordpath}") 
 
 def main():
-  audiopath = args.audioFilename
-  recordpath = args.recordFilename
+  #audiopath = args.audioFilename
+  #recordpath = args.recordFilename
   y1, sr = librosa.load(audiopath, sr=None, mono=False) #load audio file
   y1 = y1.transpose()
-  y2 = librosa.load(audiopath, sr=sr, mono=False) #load record file
+  y2,_ = librosa.load(audiopath, sr=sr, mono=False) #load record file
   y2 = y2.transpose()
   # y.shape = (frames, channels)
 
@@ -55,13 +76,14 @@ def main():
   #print('shape:', vocals.shape, buffer.shape)
   compare_similarity(vocals, y2, sr=sr)
 
-  pitch_record = pitch_detection(y2).to_array()
-  pitch_vocal = pitch_detection(vocals).to_array()
-  print('dtw normalized distance of pitch', dtw(pitch_vocal, pitch_vocal).normalizedDistance)
+  #pitch_record = pitch_detection(y2, sr=sr).selected_array['frequency']
+  #pitch_record[pitch_record==0] = np.nan
+  #pitch_vocal = pitch_detection(vocals, sr=sr).selected_array['frequency']
+  #pitch_vocal[pitch_vocal==0] = np.nan
+  #print('dtw normalized distance of pitch', dtw(pitch_vocal, pitch_vocal).normalizedDistance)
+  #space3.config(text=dtw(pitch_vocal, pitch_record).normalizedDistance)
 
-  return 0
-
-
+'''
 #command line argument parser
 parser = argparse.ArgumentParser('pitch.py', add_help=False)
 parser.add_argument('-l', '--list-devices', action='store_true', help='show list of audio device')
@@ -74,6 +96,36 @@ parser.add_argument('audioFilename', metavar='AUDIOFILENAME', help='chosen audio
 parser.add_argument('recordFilename', metavar='RECORDFILENAME', help='chosen correspond record file')
 args = parser.parse_args(remaining)
 
-#print dtw normalized distance可以改成寫到檔案
+'''
 if __name__ == "__main__":
-  main()
+
+  #視窗設定
+  window=tk.Tk() 
+  window.title("評分系統")
+  window.minsize(width=400,height=600)# 最小視窗大小
+  window.resizable(False,False)
+  window.configure(background='#3f4040')# 視窗背景顏色
+
+  #排版
+  label=tk.Label(window,text="grading system",font=('Arial',24),bg='#3f4040',fg='white')
+  space1=tk.Label(window,text=" ",font=('Arial',18),bg='#3f4040',fg='#4F4F4F',justify='left')
+  space2=tk.Label(window,text=" ",font=('Arial',48),bg='#3f4040',fg='white',justify='left')
+  space3=tk.Label(window,text=" ",font=('Arial',10),bg='#3f4040',fg='#4F4F4F',justify='left')
+
+  space5=tk.Label(window,text=" ",font=('Arial',18),bg='#3f4040',fg='#4F4F4F',justify='left')
+  space1.grid(row=0 , column=0,sticky='w',padx = 20,pady = 25)
+
+  label.grid(row=1 , column=1,sticky='w',padx = 20,pady = 5)
+  space2.grid(row=2 , column=1,sticky='w',padx = 20,pady = 25)
+  space3.grid(row=3 , column=0,sticky='w',padx = 20,pady = 25)
+
+  space5.grid(row=8 , column=0,sticky='w',padx = 20,pady = 25)
+
+  original_muise_button = tk.Button(window,background="#f0a4ad",fg="white",font=('Arial',14), text="original muise",bd=0,width=25,height=2,borderwidth =0,highlightthickness=0,command=lambda: upload_file1())
+  your_voice_button = tk.Button(window,background="#9d9fa0",fg="white",font=('Arial',14), text="your voice",bd=0,width=25,height=2,borderwidth =0,highlightthickness=0,command=lambda: upload_file2())
+  start_button = tk.Button(window,background="#d84b5b",fg="white",font=('Arial',14), text="start",bd=0,width=25,height=4,borderwidth =0,highlightthickness=0,command=main)
+  #button 排版
+  original_muise_button.grid(row= 5, column=1,sticky='w',padx = 20,pady = 2)
+  your_voice_button.grid(row=6 , column=1,sticky='w',padx=20,pady = 2)
+  start_button.grid(row=7 , column=1,sticky='w',padx=20,pady = 9)
+  window.mainloop()
