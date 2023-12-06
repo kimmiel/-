@@ -10,10 +10,10 @@ window=tk.Tk()
 window.title("使用AI生成音樂")
 
 window.minsize(width=375,height=667)# 最小視窗大小
-window.configure(background='white')# 視窗背景顏色
+window.configure(background='#3f4040')# 視窗背景顏色
 
-label=tk.Label(window,text="Using AI to generate your music",font=('Arial',24),bg='white',fg='#4F4F4F',justify='left')
-space=tk.Label(window,text=" ",font=('Arial',18),bg='white',fg='#4F4F4F',justify='left')
+label=tk.Label(window,text="Using AI to generate your music",font=('Arial',24),bg='#3f4040',fg='white',justify='left')
+space=tk.Label(window,text=" ",font=('Arial',18),bg='#3f4040',fg='#4F4F4F',justify='left')
 space.grid(row=0 , column=0,sticky='w',padx = 20,pady = 25)
 label.grid(row=1 , column=0,sticky='w',padx = 20,pady = 5)
 
@@ -55,7 +55,7 @@ def play_file():
 #可以叫出評分頁面的 function
 def Scoring():
     # wait where the output  music
-    os.system('python3 pitch.py')
+    os.system('python3 pitch.py')#gui2.py
     print(f"Scoring function")
 
 #可以叫出RVC 頁面的 function
