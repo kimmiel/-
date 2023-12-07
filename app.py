@@ -28,6 +28,67 @@ def upload_file():
         # pygame.mixer.music.load(path)
         # pygame.mixer.music.play()
 
+event = threading.Event()  # 註冊錄音事件
+event2 = threading.Event()  # 註冊停止錄音事件
+
+
+# 錄製
+def recording():
+    chunk = 1024
+    sample_format = pyaudio.paInt16
+    channels = 2
+    fs = 44100
+    seconds = 5
+    global run, name, ok
+    while True:
+        event.wait()
+        event.clear()
+        run = True
+        print('start recording...')
+        p = pyaudio.PyAudio()
+        stream = p.open(format=sample_format,
+                        channels=channels,
+                        rate=fs,
+                        frames_per_buffer=chunk,
+                        input=True)
+        frames = []
+        while run:
+            data = stream.read(chunk)
+            frames.append(data)
+        print('stop recording')
+        stream.stop_stream()
+        stream.close()
+        p.terminate()
+        event2.wait()
+        event2.clear()
+        # 儲存
+        if ok:
+            wf = wave.open(f'{name}.wav', 'wb')
+            wf.setnchannels(channels)
+            wf.setsampwidth(p.get_sample_size(sample_format))
+            wf.setframerate(fs)
+            wf.writeframes(b''.join(frames))
+            wf.close()
+        else:
+            pass
+
+
+record = threading.Thread(target=recording)
+record.start()
+
+
+def start_recording():
+    print('recording...')
+    event.set()  # 觸發錄音開始事件
+
+
+def stop_recording():
+    global run, name, ok
+    run = False
+    name = filedialog.asksaveasfilename()
+    if name != '':
+        ok = True
+    event2.set()    # 觸發錄音停止事件
 
 # 播放
 def play_file():
@@ -49,8 +110,10 @@ def play_file():
                 break
             stream.write(data)
 
+        print("close play")
         stream.close()
         p.terminate()
+        print("close finish")
 
 #可以叫出評分頁面的 function
 def Scoring():
@@ -66,9 +129,16 @@ def RVC_page():
 save_button = tk.Button(window,background="#ea4462",fg="white",font=('Arial',14), text="score",width=50,height=4,borderwidth =0,highlightthickness=0,command=Scoring)
 upload_button = tk.Button(window,background="#fbabbb",fg="white",font=('Arial',14), text="play muise",width=50,height=4,borderwidth =0,highlightthickness=0,command=play_file)
 button3 = tk.Button(window,background="#3e3e3e",fg="white",font=('Arial',14), text="RVC",width=50,height=4,borderwidth =0,highlightthickness=0,command=RVC_page)
+record_button = tk.Button(window, background="#3e3e3e", fg="white", font=('Arial', 14), text="錄製聲音", width=50,
+                    height=4, borderwidth=0, highlightthickness=0, command=start_recording)
+stopRecord_button = tk.Button(window, background="#fafafa", fg="black", font=('Arial', 14), text="停止錄音", width=50,
+                    height=4, borderwidth=0, highlightthickness=0, command=stop_recording)
 
 upload_button.grid(row=2 , column=0,sticky='w',padx=20,pady = 5)
 save_button.grid(row= 3, column=0,sticky='w',padx = 20,pady = 5)
 button3.grid(row=4 , column=0,sticky='w',padx=20,pady = 5)
+record_button.grid(row=5, column=0, sticky='w', padx=20, pady=5)
+stopRecord_button.grid(row=6, column=0, sticky='w', padx=20, pady=5)
+
 
 window.mainloop()
