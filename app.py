@@ -104,16 +104,16 @@ def play_file():
                         output=True)
 
         buf = 1024
-        while True:
-            data = wf.readframes(buf)
-            if data == '':
-                break
+        data = wf.readframes(buf)
+        while len(data) > 0:
             stream.write(data)
+            data = wf.readframes(buf)
 
-        print("close play")
+        stream.stop_stream()
         stream.close()
+        wf.close()
         p.terminate()
-        print("close finish")
+
 
 #可以叫出評分頁面的 function
 def Scoring():
