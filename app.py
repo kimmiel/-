@@ -123,7 +123,7 @@ def Scoring():
 
 #可以叫出RVC 頁面的 function
 def RVC_page():
-    os.system('python3 請改成RVCpy檔的名字.py')
+    os.system('python3 rvc_v1.0.py')
     print(f"RVC function")
 
 save_button = tk.Button(window,background="#ea4462",fg="white",font=('Arial',14), text="score",width=50,height=4,borderwidth =0,highlightthickness=0,command=Scoring)
