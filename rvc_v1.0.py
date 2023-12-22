@@ -798,7 +798,7 @@ class Train_page(tk.Frame):
                     gpus_rmvpe):
             pass
         '''
-        
+        time.sleep(1)    # 模擬等待處理效果
         master.switch_frame(Processing_page2)
 
 
