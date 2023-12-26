@@ -43,16 +43,16 @@ class Menu(tk.Frame):
 
 class Train_page(tk.Frame):
     def __init__(self, master):
-        tk.Frame.__init__(self, master, bg='purple')
-        tk.Label(self, text="train_page", font=('Arial', 30), bg='purple', fg='white').place(relx=0.5, rely=0.1, anchor='center')
-        tk.Label(self, text="repo name?", font=myfont).place(relx=0.1, rely=0.25, anchor='w')
+        tk.Frame.__init__(self, master, bg='lightblue')
+        tk.Label(self, text="train_page", font=('Arial', 30),  bg='lightblue', fg='white').place(relx=0.5, rely=0.1, anchor='center')
+        tk.Label(self, text="repo name?",  bg='lightblue', fg='white', font=myfont).place(relx=0.1, rely=0.25, anchor='w')
         self.repo_entry = tk.Entry(self, width=20, font=('Arial', 18))
         self.repo_entry.place(relx=0.6, rely=0.25, anchor='center', width=250, height=30)
         # tk.Label(self, text="repo name?", font=myfont).place(relx=0.2, rely=0.25, anchor='center')    # 好像多了一次?
-        tk.Label(self, text="voice directory?", font=myfont).place(relx=0.1, rely=0.4, anchor='w')
+        tk.Label(self, text="voice directory?",  bg='lightblue', fg='white', font=myfont).place(relx=0.1, rely=0.4, anchor='w')
         self.select_btn = tk.Button(self, text="select", font=myfont, command=self.choose_dir)
         self.select_btn.place(relx=0.4, rely=0.4, anchor='w')
-        tk.Label(self, text="total epoch?", font=myfont).place(relx=0.1, rely=0.55, anchor='w')
+        tk.Label(self, text="total epoch?",  bg='lightblue', fg='white', font=myfont).place(relx=0.1, rely=0.55, anchor='w')
         self.epoch_entry = tk.Entry(self, width=20, font=('Arial', 18))
         self.epoch_entry.place(relx=0.6, rely=0.55, anchor='center', width=250, height=30)
 
