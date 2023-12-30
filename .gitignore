@@ -5,6 +5,9 @@ infer/
 logs/
 TEMP/
 tools/
+cover/
+instrumental/
+vocal/
 .env
 *.exe
 infer-web.py
