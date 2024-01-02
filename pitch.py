@@ -52,7 +52,7 @@ def main():
   #recordpath = args.recordFilename
   y1, sr = librosa.load(audiopath, sr=None, mono=False) #load audio file
   y1 = y1.transpose()
-  y2,_ = librosa.load(audiopath, sr=sr, mono=False) #load record file
+  y2,_ = librosa.load(recordpath, sr=sr, mono=False) #load record file
   y2 = y2.transpose()
   # y.shape = (frames, channels)
 
