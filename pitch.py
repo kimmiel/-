@@ -28,9 +28,24 @@ def compare_similarity(vocal, record, sr):
   alignment = dtw(mfcc1, mfcc2) #time series data之間的距離
 
   space2.config(text=int(alignment.normalizedDistance))
-  #scord = 'dtw normalized distance of mfcc: ' + str(alignment.normalizedDistance)
+  #score = 'dtw normalized distance of mfcc: ' + str(alignment.normalizedDistance)
   #print('dtw normalized distance of mfcc: ', alignment.normalizedDistance) #數值越小越相似
 
+def load_vocal(audiopath: str, y, sr: int):
+  #path could be designed to make it more organized
+  separator_path = os.path.splitext(os.path.basename(audiopath))[0]
+  vocal_path = separator_path + '/vocals.wav'
+  if not os.path.isfile(vocal_path): #if cwd/[filename]/vocal.wav doesn't exist
+    separator = Separator("spleeter:2stems")#拆分原音檔 分成人聲與伴奏
+    vocals = separator.separate(waveform=y)['vocals'] #return: dictionary ['vocals':array(),...].
+    #waveform.shape=(frames, channels)
+    #array.shape = (frames, channels)
+    os.mkdir(separator_path)
+    sf.write(file=vocal_path, data=vocals, samplerate=sr)
+  else:
+    vocals,_ = sf.read(vocal_path)
+  #vocals.shape = (frames, channels)
+  return vocals #low efficiency I think
 
 #從以下两個function找到音檔的路徑 
 def upload_file1():
@@ -56,32 +71,31 @@ def main():
   y2 = y2.transpose()
   # y.shape = (frames, channels)
 
-  #path could be designed to make it more organized
-  separator_path = os.path.splitext(os.path.basename(audiopath))[0]
-  vocal_path = separator_path + '/vocals.wav'
-  if not os.path.isfile(vocal_path): #if cwd/[filename]/vocal.wav doesn't exist
-    separator = Separator("spleeter:2stems")#拆分原音檔 分成人聲與伴奏
-    vocals = separator.separate(waveform=y1)['vocals'] #return: dictionary ['vocals':array(),...].
-    #waveform.shape=(frames, channels)
-    #array.shape = (frames, channels)
-    os.mkdir(separator_path)
-    sf.write(file=vocal_path, data=vocals, samplerate=sr)
-  else:
-   vocals,_ = sf.read(vocal_path)
-  #vocals.shape = (frames, channels)
+  vocals = load_vocal(audiopath=audiopath, y=y1, sr=sr)
   
   #stereo to mono by cauculating mean of all channels
-  vocals = vocals.mean(axis=1)
-  y2 = y2.mean(axis=1)
-  #print('shape:', vocals.shape, buffer.shape)
+  if (len(vocals.shape) == 2):
+    vocals = vocals.mean(axis=1)
+  if (len(y2.shape) == 2):
+    y2 = y2.mean(axis=1)
+  # simply append to same length for dtw
+  if (vocals.shape[0] >= y2.shape[0]) :
+     y2 = np.insert(arr=y2, obj=y2.shape[0], values=[0 for i in range(vocals.shape[0]-y2.shape[0])])
+  else:
+     vocals = np.insert(arr=vocals, obj=vocals.shape[0], values=[0 for i in range(y2.shape[0]-vocals.shape[0])])
+  #print('shape:', vocals.shape, y2.shape)
+     
   compare_similarity(vocals, y2, sr=sr)
 
-  #pitch_record = pitch_detection(y2, sr=sr).selected_array['frequency']
-  #pitch_record[pitch_record==0] = np.nan
-  #pitch_vocal = pitch_detection(vocals, sr=sr).selected_array['frequency']
-  #pitch_vocal[pitch_vocal==0] = np.nan
-  #print('dtw normalized distance of pitch', dtw(pitch_vocal, pitch_vocal).normalizedDistance)
-  #space3.config(text=dtw(pitch_vocal, pitch_record).normalizedDistance)
+  '''
+  consume too much memory in dtw
+  pitch_record = pitch_detection(y2, sr=sr).selected_array['frequency']
+  pitch_vocal = pitch_detection(vocals, sr=sr).selected_array['frequency'] #maybe pitch shift for better compare
+  print('dtw normalized distance of pitch', dtw(pitch_vocal, pitch_vocal).normalizedDistance)
+  space3.config(text=dtw(pitch_vocal, pitch_record).normalizedDistance)
+  '''
+
+  return
 
 '''
 #command line argument parser
@@ -99,14 +113,14 @@ args = parser.parse_args(remaining)
 '''
 if __name__ == "__main__":
 
-  #視窗設定
+# 視窗設定
   window=tk.Tk() 
   window.title("評分系統")
   window.minsize(width=400,height=600)# 最小視窗大小
   window.resizable(False,False)
   window.configure(background='#3f4040')# 視窗背景顏色
 
-  #排版
+#排版
   label=tk.Label(window,text="grading system",font=('Arial',24),bg='#3f4040',fg='white')
   space1=tk.Label(window,text=" ",font=('Arial',18),bg='#3f4040',fg='#4F4F4F',justify='left')
   space2=tk.Label(window,text=" ",font=('Arial',48),bg='#3f4040',fg='white',justify='left')
