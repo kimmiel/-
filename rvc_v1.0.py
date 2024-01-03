@@ -724,17 +724,17 @@ class Menu(tk.Frame):
 
 class Train_page(tk.Frame):
     def __init__(self, master):
-        tk.Frame.__init__(self, master, bg='purple')
-        tk.Label(self, text="train_page", font=('Arial', 30), bg='purple', fg='white').place(relx=0.5, rely=0.1, anchor='center')
-        tk.Label(self, text="repository name?", font=myfont).place(relx=0.1, rely=0.25, anchor='w')
+        tk.Frame.__init__(self, master, bg='lightblue')
+        tk.Label(self, text="train_page", font=('Arial', 30),  bg='lightblue', fg='white').place(relx=0.5, rely=0.1, anchor='center')
+        tk.Label(self, text="repo name?",  bg='lightblue', fg='white', font=myfont).place(relx=0.1, rely=0.25, anchor='w')
         self.repo_entry = tk.Entry(self, width=20, font=('Arial', 18))
-        self.repo_entry.place(relx=0.7, rely=0.25, anchor='center', width=250, height=30)
-        tk.Label(self, text="voice directory?", font=myfont).place(relx=0.1, rely=0.4, anchor='w')
+        self.repo_entry.place(relx=0.6, rely=0.25, anchor='center', width=250, height=30)
+        tk.Label(self, text="voice directory?",  bg='lightblue', fg='white', font=myfont).place(relx=0.1, rely=0.4, anchor='w')
         self.select_btn = tk.Button(self, text="select", font=myfont, command=self.choose_dir)
-        self.select_btn.place(relx=0.5, rely=0.4, anchor='w')
-        tk.Label(self, text="total epochs?", font=myfont).place(relx=0.1, rely=0.55, anchor='w')
+        self.select_btn.place(relx=0.4, rely=0.4, anchor='w')
+        tk.Label(self, text="total epoch?",  bg='lightblue', fg='white', font=myfont).place(relx=0.1, rely=0.55, anchor='w')
         self.epoch_entry = tk.Entry(self, width=20, font=('Arial', 18))
-        self.epoch_entry.place(relx=0.7, rely=0.55, anchor='center', width=250, height=30)
+        self.epoch_entry.place(relx=0.6, rely=0.55, anchor='center', width=250, height=30)
 
         tk.Button(self, text="one click to train", font=('Arial', 30), command=lambda: self.combined_func(master)
                   ).place(relx=0.5, rely=0.8, anchor='center')
@@ -806,9 +806,9 @@ class Train_page(tk.Frame):
 
 class UVR_page(tk.Frame):       # ultimate vocal remover
     def __init__(self, master):
-        tk.Frame.__init__(self, master, bg='purple')
-        tk.Label(self, text="UVR_page", font=('Arial', 30), bg='purple', fg='white').place(relx=0.5, rely=0.1, anchor='center')
-        tk.Label(self, text="song directory?", font=myfont).place(relx=0.1, rely=0.4, anchor='w')
+        tk.Frame.__init__(self, master,bg='lightblue')
+        tk.Label(self, text="UVR_page", font=('Arial', 30),bg='lightblue', fg='white').place(relx=0.5, rely=0.1, anchor='center')
+        tk.Label(self, text="song directory?",  bg='lightblue', fg='white', font=myfont).place(relx=0.1, rely=0.4, anchor='w')
         self.select_btn = tk.Button(self, text="select", font=myfont, command=self.choose_dir)
         self.select_btn.place(relx=0.5, rely=0.4, anchor='w')
         tk.Button(self, text="one click to remove vocal", font=('Arial', 26), command=lambda: self.combined_func(master)
@@ -849,13 +849,13 @@ class UVR_page(tk.Frame):       # ultimate vocal remover
 
 class Cover_page(tk.Frame):         # model referencing(get your cover)
     def __init__(self, master):
-        tk.Frame.__init__(self, master, bg='purple')
-        tk.Label(self, text="cover_page", font=('Arial', 30), bg='purple', fg='white').place(relx=0.5, rely=0.1, anchor='center')
-        tk.Label(self, text="vocal directory?", font=myfont).place(relx=0.1, rely=0.25, anchor='w')
+        tk.Frame.__init__(self, master,bg='lightblue')
+        tk.Label(self, text="cover_page",   font=('Arial', 30),bg='lightblue', fg='white').place(relx=0.5, rely=0.1, anchor='center')
+        tk.Label(self, text="vocal directory?",  bg='lightblue', fg='white', font=myfont).place(relx=0.1, rely=0.25, anchor='w')
         self.select_btn = tk.Button(self, text="select", font=myfont, command=self.choose_dir)
         self.select_btn.place(relx=0.5, rely=0.25, anchor='w')
         
-        tk.Label(self, text="transposition(-12~12)?", font=("Arial", 12)).place(relx=0.1, rely=0.35, anchor='w')
+        tk.Label(self, text="transposition(-12~12)?",  bg='lightblue', fg='white', font=("Arial", 12)).place(relx=0.1, rely=0.35, anchor='w')
         self.trans_entry = tk.Entry(self, width=20, font=('Arial', 18))
         self.trans_entry.place(relx=0.7, rely=0.35, anchor='center', width=250, height=30)
 
@@ -873,8 +873,8 @@ class Cover_page(tk.Frame):         # model referencing(get your cover)
         self.id_var = -1         # just for initialization
         self.text_var = tk.StringVar()
         self.text_var.set("")
-        tk.Label(self, text="choose index file?", font=myfont).place(relx=0.1, rely=0.45, anchor='w')
-        tk.Label(self, textvariable=self.text_var, font=('Arial', 10)).place(relx=0.1, rely=0.5, anchor='w')
+        tk.Label(self, text="choose index file?",  bg='lightblue', fg='white', font=myfont).place(relx=0.1, rely=0.45, anchor='w')
+        tk.Label(self, textvariable=self.text_var,  bg='lightblue', fg='white', font=('Arial', 10)).place(relx=0.1, rely=0.5, anchor='w')
         
         self.select_btn2 = tk.Button(self, text="scroll", font=('Arial', 12), command=self.scroll_file)
         self.select_btn2.place(relx=0.5, rely=0.45, anchor='w')
@@ -891,8 +891,8 @@ class Cover_page(tk.Frame):         # model referencing(get your cover)
         self.id_var2 = -1         # just for initialization
         self.text_var2 = tk.StringVar()
         self.text_var2.set("")
-        tk.Label(self, text="choose pth file?", font=myfont).place(relx=0.1, rely=0.55, anchor='w')
-        tk.Label(self, textvariable=self.text_var2, font=('Arial', 10)).place(relx=0.1, rely=0.6, anchor='w')
+        tk.Label(self, text="choose pth file?",  bg='lightblue', fg='white', font=myfont).place(relx=0.1, rely=0.55, anchor='w')
+        tk.Label(self, textvariable=self.text_var2,  bg='lightblue', fg='white', font=('Arial', 10)).place(relx=0.1, rely=0.6, anchor='w')
         
         self.select_btn3 = tk.Button(self, text="scroll", font=('Arial', 12), command=self.scroll_file2)
         self.select_btn3.place(relx=0.5, rely=0.55, anchor='w')
@@ -998,7 +998,6 @@ class Processing_page2(Processing_page):
 
 
 window = Rvc_gui()
-
 window.mainloop()
 
 
